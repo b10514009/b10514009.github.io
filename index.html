@@ -1,0 +1,361 @@
+﻿<html>
+
+<head>
+           <meta http-equiv="Content-Type" content="text/html;charset=ANSI"/>
+
+           <title>新勢公園公共設施修繕回報系統(測試)</title>
+
+           <!--呼叫TGOS MAP API (lite)-->
+
+           <script type="text/javascript" src="http://api.tgos.tw/TGOS_API/tgos?ver=2&AppID=x+JLVSx85Lk=&APIKey=in8W74q0ogpcfW/STwicK8D5QwCdddJf05/7nb+OtDh8R99YN3T0LurV4xato3TpL/fOfylvJ9Wv/khZEsXEWxsBmg+GEj4AuokiNXCh14Rei21U5GtJpIkO++Mq3AguFK/ISDEWn4hMzqgrkxNe1Q=="charset="ansi"></script>
+
+           <script type="text/javascript">
+
+                     var messageBox;    //訊息視窗物件  
+
+                     var pMap;          //初始化地圖物件
+
+  //-----------------須自行修改的參數,包含點位坐標,訊息視窗內容及圖示檔案來源設定----------------------
+
+  var infotext =  [
+
+    '<B>反光鏡<br>序號：新勢里001<br>位置：中豐路72巷12號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里005<br>位置：中豐路79巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里006<br>位置：中豐路79巷15號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里007<br>位置：中豐路93巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里008<br>位置：中豐路95巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里009<br>位置：中豐路103巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里010<br>位置：新德街7巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里011<br>位置：新德街29號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里012<br>位置：新德街29號對面菜園旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里013<br>位置：新德街52巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里016<br>位置：新德街103巷9弄1號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里017<br>位置：新榮路22巷2號<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里018<br>位置：新榮路22巷30號旁(環河路上)<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里019<br>位置：新榮路54巷口(福德祠旁)<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里020<br>位置：新榮路54巷6號前<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里022<br>位置：新榮路242巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里027<br>位置：振興西路155巷口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里029<br>位置：振興西路155巷25號<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里030<br>位置：振興西路155巷14號<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里031<br>位置：振興西路155巷往鐵軌涵洞前<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新勢里032<br>位置：振興西路及崇德路交叉口<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+
+
+    '<B>反光鏡<br>序號：新富里001<br>位置：振興路2號<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里002<br>位置：德育2段47號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里005<br>位置：德育路2段133號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里006<br>位置：德育路2段139號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里007<br>位置：德育路2段170巷37號後面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里008<br>位置：德育路2段170巷39弄1號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里009<br>位置：德育路2段170巷39弄9號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里010<br>位置：德育路2段169號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里011<br>位置：德育路2段179號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里012<br>位置：德育路287號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里014<br>位置：承德路6號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里015<br>位置：平鎮區公所停車場（振興路）<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里016<br>位置：台灣菸酒公司平鎮營業所旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里017<br>位置：中豐路152之1號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里018<br>位置：環南路2段255號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里019<br>位置：環南路2段207號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里020<br>位置：新富一街42號對面<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里021<br>位置：新富一街和新富四街交义處<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里022<br>位置：新富一街和新富三街交义處<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里023<br>位置：新富一街30號旁<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里024<br>位置：新富二街和新富四街交义處<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+    '<B>反光鏡<br>序號：新富里025<br>位置：新富四街6號<br><a href="https://goo.gl/forms/SuGMfWGArk9s42d42"target="_blank">修繕回報</a>',
+
+
+    '<B>流動廁所<br>序號：004<br>位置：宋屋公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：006<br>位置：廣北停車場<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：007<br>位置：文化公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：008<br>位置：義興公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：013<br>位置：新富公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：019<br>位置：莊敬公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：022<br>位置：復興親子公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：023<br>位置：新天母公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：024<br>位置：山子頂公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：031<br>位置：金星親子廣場<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：033<br>位置：廣南停車場<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：034<br>位置：過嶺支渠景觀步道<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：041<br>位置：運動公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：042<br>位置：新光66橋下休憩廣場<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：043<br>位置：洪圳休閒廣場<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：044<br>位置：雙連坡碉堡公園<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+    '<B>流動廁所<br>序號：045<br>位置：平鎮區公所後方<br><a href="https://goo.gl/forms/ukyp2jvt6iszOuT43"target="_blank">修繕回報</a>',
+
+                   ];          //依序填入地標名稱及訊息視窗內容, 可自行增減數量
+
+  var markerPoint = [
+
+    new TGOS.TGPoint(271924.546, 2759970.880),　　　　　　　//備註1
+    new TGOS.TGPoint(272005.633, 2760134.076),　　　　　　　//備註2
+    new TGOS.TGPoint(272115.065, 2760112.715),　　　　　　　//備註3
+    new TGOS.TGPoint(272000.096, 2760087.916),　　　　　　　//備註4
+    new TGOS.TGPoint(271994.526, 2760063.293),　　　　　　　//備註5
+    new TGOS.TGPoint(271991.745, 2760047.905),　　　　　　　//備註6
+    new TGOS.TGPoint(271828.850, 2760173.791),　　　　　　　//備註7
+    new TGOS.TGPoint(271871.220, 2759989.255),　　　　　　　//備註8
+    new TGOS.TGPoint(271868.430, 2759980.020),　　　　　　　//備註9
+    new TGOS.TGPoint(271826.437, 2759927.649),　　　　　　　//備註10
+    new TGOS.TGPoint(271823.774, 2759838.420),　　　　　　　//備註11
+    new TGOS.TGPoint(271820.430, 2760176.854),　　　　　　　//備註12
+    new TGOS.TGPoint(271750.284, 2760189.049),　　　　　　　//備註13
+    new TGOS.TGPoint(271789.692, 2760102.964),　　　　　　　//備註14
+    new TGOS.TGPoint(271770.051, 2760106.009),　　　　　　　//備註15
+    new TGOS.TGPoint(271638.553, 2759890.431),　　　　　　　//備註16
+    new TGOS.TGPoint(271821.061, 2759779.958),　　　　　　　//備註17
+    new TGOS.TGPoint(271854.649, 2759826.163),　　　　　　　//備註18
+    new TGOS.TGPoint(271877.100, 2759820.045),　　　　　　　//備註19
+    new TGOS.TGPoint(271821.061, 2759779.958),　　　　　　　//備註20
+    new TGOS.TGPoint(271397.304, 2759896.206),　　　　　　　//備註21
+
+
+    new TGOS.TGPoint(272039.921, 2759743.388),　　　　　　　//備註1
+    new TGOS.TGPoint(272093.412, 2759623.482),　　　　　　　//備註2
+    new TGOS.TGPoint(272099.394, 2759392.738),　　　　　　　//備註3
+    new TGOS.TGPoint(272102.249, 2759361.975),　　　　　　　//備註4
+    new TGOS.TGPoint(271959.301, 2759287.904),　　　　　　　//備註5
+    new TGOS.TGPoint(271990.144, 2759297.184),　　　　　　　//備註6
+    new TGOS.TGPoint(271990.227, 2759244.880),　　　　　　　//備註7
+    new TGOS.TGPoint(272102.343, 2759303.518),　　　　　　　//備註8
+    new TGOS.TGPoint(272096.822, 2759248.128),　　　　　　　//備註9
+    new TGOS.TGPoint(272118.336, 2759823.509),　　　　　　　//備註10
+    new TGOS.TGPoint(272159.926, 2760125.094),　　　　　　　//備註11
+    new TGOS.TGPoint(271980.988, 2759758.677),　　　　　　　//備註12
+    new TGOS.TGPoint(271947.312, 2759767.853),　　　　　　　//備註13
+    new TGOS.TGPoint(271961.042, 2759952.478),　　　　　　　//備註14
+    new TGOS.TGPoint(271566.660, 2759228.824),　　　　　　　//備註15
+    new TGOS.TGPoint(271541.374, 2759253.398),　　　　　　　//備註16
+    new TGOS.TGPoint(271507.649, 2759293.343),　　　　　　　//備註17
+    new TGOS.TGPoint(271588.874, 2759373.465),　　　　　　　//備註18
+    new TGOS.TGPoint(271675.695, 2759462.826),　　　　　　　//備註19
+    new TGOS.TGPoint(271714.895, 2759509.039),　　　　　　　//備註20
+    new TGOS.TGPoint(271650.706, 2759299.721),　　　　　　　//備註21
+    new TGOS.TGPoint(271622.605, 2759330.444),　　　　　　　//備註22
+
+
+    new TGOS.TGPoint(270640.193, 2759716.597),　　　　　　　//備註1
+    new TGOS.TGPoint(271061.828, 2760981.768),　　　　　　　//備註2
+    new TGOS.TGPoint(270596.619, 2760713.387),　　　　　　　//備註3
+    new TGOS.TGPoint(271130.368, 2760188.080),　　　　　　　//備註4
+    new TGOS.TGPoint(271965.359, 2759007.933),　　　　　　　//備註5
+    new TGOS.TGPoint(271710.498, 2755192.412),　　　　　　　//備註6
+    new TGOS.TGPoint(270600.150, 2760230.348),　　　　　　　//備註7
+    new TGOS.TGPoint(270364.659, 2760140.771),　　　　　　　//備註8
+    new TGOS.TGPoint(270704.990, 2753947.876),　　　　　　　//備註9
+    new TGOS.TGPoint(271136.403, 2756268.362),　　　　　　　//備註10
+    new TGOS.TGPoint(271080.625, 2759701.883),　　　　　　　//備註11
+    new TGOS.TGPoint(268998.929, 2759898.828),　　　　　　　//備註12
+    new TGOS.TGPoint(269028.627, 2758711.260),　　　　　　　//備註13
+    new TGOS.TGPoint(270870.175, 2757898.608),　　　　　　　//備註14
+    new TGOS.TGPoint(274727.993, 2754659.086),　　　　　　　//備註15
+    new TGOS.TGPoint(268565.360, 2761067.386),　　　　　　　//備註16
+    new TGOS.TGPoint(272037.047, 2759786.457),　　　　　　　//備註17
+
+                   ];          //依序填入地標坐標位置, 坐標數須與標記數一致
+
+  var markerPoint2 = new TGOS.TGPoint(271887,2759755);
+
+  var imgUrl = [
+
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註1
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註2
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註3
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註4
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註5
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註6
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註7
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註8
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註9
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註10
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註11
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註12
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註13
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註14
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註15
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註16
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註17
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註18
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註19
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註20
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註21
+
+
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註1
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註2
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註3
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註4
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註5
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註6
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註7
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註8
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註9
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註10
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註11
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註12
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註13
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註14
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註15
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註16
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註17
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註18
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註19
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註20
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註21
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1539832019393/home/park/milfab.png",　　　　　　　//備註22
+
+
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註1
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註2
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註3
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註4
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註5
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註6
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註7
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註8
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088861036/home/park/Accessibility-Icon-A.png",//備註9
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註10
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註11
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註12
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088861036/home/park/Accessibility-Icon-A.png",//備註13
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註14
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註15
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註16
+    "https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1540088371750/home/park/wc-bgb.png",　　　　　　　//備註17
+
+                   ];          //依序設定標記點圖示來源
+
+  //--------------------若網頁介面依照範例網頁的預設設定,以下程式碼可不修改--------------------------
+
+                     function InitWnd()
+
+                     {
+
+  //------------------初始化地圖--------------------
+
+                                var pOMap = document.getElementById("OMap");
+
+                                var mapOptiions = {
+
+                                           scaleControl: true,                                                     //不顯示比例尺
+
+                                           navigationControl: true,                                                //顯示地圖縮放控制項
+
+                                           navigationControlOptions: {                                             //設定地圖縮放控制項
+
+                                                     controlPosition: TGOS.TGControlPosition.TOP_LEFT,             //控制項位置
+
+                                                     navigationControlStyle: TGOS.TGNavigationControlStyle.SMALL   //控制項樣式
+
+                                           },
+
+                                           mapTypeControl:true                                                    //不顯示地圖類型控制項
+
+                                };
+
+                                pMap = new TGOS.TGOnlineMap(pOMap, TGOS.TGCoordSys.EPSG3826, mapOptiions);         //建立地圖,選擇TWD97坐標
+
+                                pMap.setZoom(10);                                                                  //初始地圖縮放層級
+
+                                pMap.setCenter(markerPoint2);                                                      //初始地圖中心點
+
+                               
+
+            for(var i = 0; i < infotext.length; i++) {
+
+  //------------------建立標記點---------------------
+
+  var markerImg = new TGOS.TGImage(imgUrl[i], new TGOS.TGSize(38, 33), new TGOS.TGPoint(0, 0), new TGOS.TGPoint(10, 33));     //設定標記點圖片及尺寸大小
+
+  var pTGMarker = new TGOS.TGMarker(pMap, markerPoint[i],'', markerImg, {flat:false});                                        //建立機關單位標記點
+
+  //-----------------建立訊息視窗--------------------
+
+                var InfoWindowOptions = {
+
+                      maxWidth:4000,         //訊息視窗的最大寬度
+
+                      pixelOffset: new TGOS.TGSize(5, -30) //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
+
+                };             
+
+                      messageBox= new TGOS.TGInfoWindow(infotext[i], markerPoint[i], InfoWindowOptions);   //建立訊息視窗                                                                  
+
+                                           TGOS.TGEvent.addListener(pTGMarker, "click", function (pTGMarker, messageBox) {
+
+                                                     return function () {                  
+
+                                                                messageBox.open(pMap, pTGMarker);
+
+                                                     }
+
+                } (pTGMarker, messageBox));//滑鼠監聽事件--開啟訊息視窗
+
+                                           TGOS.TGEvent.addListener(pTGMarker, "", function (messageBox) {
+
+                                                     return function () {
+
+                                                                messageBox.close();
+
+                                                     }
+
+                                           } (messageBox));
+
+                                }    
+
+                     }
+
+           </script>
+
+</head>
+
+<body>
+
+    <div id="OMap" style="position:absolute; top:10px; left:10px; width:660px; height:533px; border:1px solid #000000;"></div><p>
+
+    <button onclick="getLocation()" style="width:80px;height:40px;font-size:20px;position:relative; left:10px; top: 553px; " >-定位-</button>
+
+    <p id="demo"></p>
+
+    <Script>
+        
+    var x = document.getElementById("demo");
+        //Geolocation API，獲取位置
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        /* 
+        //將坐標秀在P上頭，測試Geolocation API是否正常運作用
+
+        x.innerHTML = "Latitude: " + position.coords.latitude + 
+        "<br>Longitude: " + position.coords.longitude;
+        */
+        //坐標轉換(WGS84t to TWD97
+
+        var TT = new TGOS.TGTransformation();
+        TT.wgs84totwd97(position.coords.longitude,position.coords.latitude);
+        
+        //建立標記
+
+        var markerPoint =new TGOS.TGPoint(TT.transResult.x,TT.transResult.y)
+        var markerImg=new TGOS.TGImage("https://sites.google.com/a/gapps.uch.edu.tw/database/_/rsrc/1538527780649/home/park/my%20position.png",new TGOS.TGSize(38, 33), new TGOS.TGPoint(0, 0), new TGOS.TGPoint(10, 33));
+        pMap.setCenter(markerPoint)//設定標記為地圖中心
+        pMap.setZoom(13)//放大到最大
+        var pTGMarker =new TGOS.TGMarker(pMap,markerPoint,"我的位置",markerImg);
+    }
+    </Script>
+
+</body>
+
+<body style="margin:0px" onload="InitWnd();">
+
+           <div id="OMap" style="position:absolute; top:10px; left:10px; width:660px; height:533px; border:1px solid #000000;"></div>
+
+</html>
